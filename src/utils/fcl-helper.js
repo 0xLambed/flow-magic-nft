@@ -20,62 +20,8 @@ const cadence = require("./cadence.json");
     ----------------------------- Scripts -----------------------------
 */
 
-export async function getSaleInfo() {
-  const result = await flowUtils.runScript(cadence.scripts.get_sale_info);
-  return result;
-}
-
-export async function getGoatSaleInfo() {
-  const result = await flowUtils.runScript(
-    cadence.scripts.get_goated_goats_sale_info
-  );
-  return result;
-}
-
-export async function getFlowBalance(address) {
-  const result = await flowUtils.runScript(cadence.scripts.get_flow_balance, [
-    fcl.arg(address, t.Address),
-  ]);
-  return result;
-}
-
-export async function getOwnedGoatVouchers(address) {
-  const result = await flowUtils.runScript(
-    cadence.scripts.get_owned_goated_goat_vouchers,
-    [fcl.arg(address, t.Address)]
-  );
-  return result;
-}
-
-export async function getOwnedPackVouchers(address) {
-  const result = await flowUtils.runScript(
-    cadence.scripts.get_owned_trait_pack_vouchers,
-    [fcl.arg(address, t.Address)]
-  );
-  return result;
-}
-
-export async function getOwnedGoats(address) {
-  const result = await flowUtils.runScript(
-    cadence.scripts.get_owned_goated_goats,
-    [fcl.arg(address, t.Address)]
-  );
-  return result;
-}
-
-export async function getOwnedPacks(address) {
-  const result = await flowUtils.runScript(
-    cadence.scripts.get_owned_goated_goat_trait_packs,
-    [fcl.arg(address, t.Address)]
-  );
-  return result;
-}
-
-export async function getOwnedTraits(address) {
-  const result = await flowUtils.runScript(
-    cadence.scripts.get_owned_goated_goat_traits,
-    [fcl.arg(address, t.Address)]
-  );
+export async function getOwnedNFTs() {
+  const result = await flowUtils.runScript(cadence.scripts.get_owned_NFTs);
   return result;
 }
 
@@ -84,88 +30,9 @@ export async function getOwnedTraits(address) {
 */
 
 export async function setupProjectCollections() {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-
-  console.log(fcl.authz);
   const result = await flowUtils.runTransaction(
     cadence.transactions.setup_project_collections,
     []
-  );
-  return result;
-}
-
-export async function setupGoatedVoucherCollection() {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-  const result = await flowUtils.runTransaction(
-    cadence.transactions.setup_voucher_collections,
-    [],
-    fcl.authz
-  );
-  return result;
-}
-export async function batchPurchaseGoatVouchers(quantity) {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-  const result = await flowUtils.runTransaction(
-    cadence.transactions.v2_batch_mint_goat_vouchers,
-    [fcl.arg(quantity, t.UInt64)],
-    fcl.authz
-  );
-  return result;
-}
-
-export async function batchPurchaseTraitVouchers(quantity) {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-  const result = await flowUtils.runTransaction(
-    cadence.transactions.v2_batch_mint_pack_vouchers,
-    [fcl.arg(quantity, t.UInt64)],
-    fcl.authz
-  );
-  return result;
-}
-export async function redeemGoatVoucher(goatVoucherID) {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-  const result = await flowUtils.runTransaction(
-    cadence.transactions.redeem_goat_voucher,
-    [fcl.arg(goatVoucherID, t.UInt64)],
-    fcl.authz
-  );
-  return result;
-}
-
-export async function redeemPackVoucher(packVoucherID) {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-  const result = await flowUtils.runTransaction(
-    cadence.transactions.redeem_trait_pack_voucher,
-    [fcl.arg(packVoucherID, t.UInt64)],
-    fcl.authz
-  );
-  return result;
-}
-
-export async function redeemPack(packID) {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-  const result = await flowUtils.runTransaction(
-    cadence.transactions.redeem_trait_pack,
-    [fcl.arg(packID, t.UInt64)],
-    fcl.authz
-  );
-  return result;
-}
-
-export async function updateGoatTraits(
-  goatEditionId,
-  traitsIdsToEquip,
-  traitSlotsToUnequip
-) {
-  // fcl.authz refers to utilizing the current signed in user's authorization for signing the transaction
-  const result = await flowUtils.runTransaction(
-    cadence.transactions.update_goat_traits,
-    [
-      fcl.arg(goatEditionId, t.UInt64),
-      fcl.arg(traitsIdsToEquip, t.Array(t.UInt64)),
-      fcl.arg(traitSlotsToUnequip, t.Array(t.String)),
-    ],
-    fcl.authz
   );
   return result;
 }

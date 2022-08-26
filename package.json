@@ -5,7 +5,7 @@
   "dependencies": {
     "@magic-ext/flow": "3.1.0",
     "@magic-ext/oidc": "1.0.0",
-    "@onflow/fcl": "^0.0.37",
+    "@onflow/fcl": "^1.2.0",
     "@onflow/transport-grpc": "^1.1.1",
     "@onflow/types": "0.0.3",
     "@testing-library/jest-dom": "^4.2.4",

@@ -51,45 +51,10 @@ export async function runScript(script, args) {
 // -----------------------------------------------------------------------
 export async function runTransaction(transaction, args) {
   try {
-    const getReferenceBlock = async () => {
-      const response = await fcl.send([fcl.getLatestBlock()]);
-      const data = await fcl.decode(response);
-      return data.id;
-    };
     var transactionId = await fcl
       .send([
-        fcl.transaction`import NonFungibleToken from 0x631e88ae7f1d7c20
-        import MetadataViews from 0x631e88ae7f1d7c20
-        import FungibleToken from 0x9a0766d93b6608b7
-        import FlowToken from 0x7e60df042a9c0868
-        import NewFunThing from 0xcbf10523da1a9ee9
-        import NewFunThingPack from 0xcbf10523da1a9ee9
-        
-        
-        transaction() {
-            
-            prepare(acct: AuthAccount) {
-                if acct.borrow<&NewFunThing.Collection>(from: NewFunThing.CollectionStoragePath) == nil {
-                    let collection <- NewFunThing.createEmptyCollection()
-                    acct.save(<-collection, to: NewFunThing.CollectionStoragePath)
-                }
-                if acct.getCapability<&NewFunThing.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, NewFunThing.NewFunThingCollectionPublic, MetadataViews.ResolverCollection}>(NewFunThing.CollectionPublicPath).borrow() == nil {
-                    acct.link<&NewFunThing.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, NewFunThing.NewFunThingCollectionPublic, MetadataViews.ResolverCollection}>(NewFunThing.CollectionPublicPath, target: NewFunThing.CollectionStoragePath)
-                }
-        
-                if acct.borrow<&NewFunThingPack.Collection>(from: NewFunThingPack.CollectionStoragePath) == nil {
-                    let collection <- NewFunThingPack.createEmptyCollection()
-                    acct.save(<-collection, to: NewFunThingPack.CollectionStoragePath)
-                }
-                if acct.getCapability<&NewFunThingPack.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, NewFunThingPack.PackCollectionPublic, MetadataViews.ResolverCollection}>(NewFunThingPack.CollectionPublicPath).borrow() == nil {
-                    acct.link<&NewFunThingPack.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, NewFunThingPack.PackCollectionPublic, MetadataViews.ResolverCollection}>(NewFunThingPack.CollectionPublicPath, target: NewFunThingPack.CollectionStoragePath)
-                }
-            }
-            execute {
-            }
-        }`,
-        // fcl.args(args),
-        fcl.ref(await getReferenceBlock()),
+        fcl.transaction(transaction),
+        fcl.args(args),
         fcl.payer(AUTHORIZATION_FUNCTION), // current user is responsible for paying for the transaction
         fcl.proposer(AUTHORIZATION_FUNCTION), // current user acting as the nonce
         fcl.authorizations([AUTHORIZATION_FUNCTION]), // current user will be first AuthAccount
