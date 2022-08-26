@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as fcl from "@onflow/fcl";
 import { magic } from "./utils/flow-utils";
 import "./styles.css";
 import { setupProjectCollections } from "./utils/fcl-helper";
